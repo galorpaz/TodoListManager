@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TodoListManager</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="menu_add">Add</string>
+    <string name="new_todo">Write your task here</string>
+</resources>

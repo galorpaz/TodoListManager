@@ -80,7 +80,9 @@ public class AddNewTodoItemActivity extends Activity {
         //put the arguments using putExtra
         main_activity.putExtra("dueDate",date);
         main_activity.putExtra("title",todo_task.getText().toString() );
-        startActivity(main_activity);
+        setResult( Activity.RESULT_OK,main_activity);
+        finish();
+//        startActivity(main_activity);
     }
 
 }

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -39,7 +40,9 @@ public class CustomAdapter extends ArrayAdapter<Todo_item> {
                 e.printStackTrace();
             }
             Date now = new Date();
-            if (now.after(date)) {//due to date has passed
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
+            if (sdf.format(now).compareTo(sdf.format(date))>0 ) {//due to date has passed
                 todo_date.setTextColor(Color.RED);
                 todo_task.setTextColor(Color.RED);
             }

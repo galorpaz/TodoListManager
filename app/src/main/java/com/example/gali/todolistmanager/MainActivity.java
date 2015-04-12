@@ -1,5 +1,6 @@
 package com.example.gali.todolistmanager;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class MainActivity extends ActionBarActivity {
     private ArrayList<Todo_item> list = new ArrayList<>();
     private CustomAdapter adapter;
     static DateFormat format = new SimpleDateFormat("d-MM-yyyy");
-   final Context context = this;
+    final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,24 +82,11 @@ public class MainActivity extends ActionBarActivity {
         }); //end of setOnItemLongClickListener
 
         //
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        if (bundle != null) {
-            Date date = (Date) bundle.get("dueDate");
-            String dateS;
-            if (date != null) {
-                dateS = MainActivity.format.format(date);
-            } else {
-                dateS = "No due date";
-            }
-            String title = (String) bundle.get("title");
-            if (!title.isEmpty()) {
-                Todo_item todo_item = new Todo_item(title, dateS);
-                list.add(todo_item);
-                adapter.notifyDataSetChanged();
-            }
 
-        }
+
+
+
+
     }
 
 
@@ -121,11 +108,37 @@ public class MainActivity extends ActionBarActivity {
         if (id == R.id.add) {
             //start the activity
             Intent add_new_activity_intent = new Intent(this, AddNewTodoItemActivity.class);
-            startActivity(add_new_activity_intent);
+            startActivityForResult(add_new_activity_intent, 3);
 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (3) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    Bundle bundle= data.getExtras();
+                    Date date = (Date) bundle.get("dueDate");
+                    String dateS;
+                    if (date != null) {
+                        dateS = MainActivity.format.format(date);
+                    } else {
+                        dateS = "No due date";
+                    }
+                    String title = (String) bundle.get("title");
+                    if (!title.isEmpty()) {
+                        Todo_item todo_item = new Todo_item(title, dateS);
+                        list.add(todo_item);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+                break;
+            }
+        }
     }
 }
 

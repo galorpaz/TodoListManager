@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import java.util.Date;
@@ -13,7 +12,7 @@ import java.util.Date;
 /**
  * Created by gali on 18-Mar-15.
  */
-public class AddNewItemActivity extends Activity {
+public class AddNewTodoItemActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,25 +71,15 @@ public class AddNewItemActivity extends Activity {
 
     private void add_new_todo() {
         //extract the data
-        String dateS;
+        Date date;
         EditText todo_task = (EditText) findViewById(R.id.new_todo);
         DatePicker todo_date = (DatePicker) findViewById(R.id.todo_date);
-        CheckBox no_date = (CheckBox) findViewById(R.id.NoDate);
-        if (no_date.isChecked()) {
-            //no due to date
-            dateS = "no due to date";
-        } else {
-            Date date = new Date(todo_date.getCalendarView().getDate());
-            dateS = MainActivity.format.format(date);
-        }
-        // create new todo_item object and add it to the list
-        if (!todo_task.getText().toString().isEmpty()) {
-            Todo_item todo_item = new Todo_item(todo_task.getText().toString(), dateS);
-            MainActivity.list.add(todo_item);
-            MainActivity.adapter.notifyDataSetChanged();
-        }
+        date = new Date(todo_date.getCalendarView().getDate());
         //return to main activity
         Intent main_activity = new Intent(this, MainActivity.class);
+        //put the arguments using putExtra
+        main_activity.putExtra("dueDate",date);
+        main_activity.putExtra("title",todo_task.getText().toString() );
         startActivity(main_activity);
     }
 

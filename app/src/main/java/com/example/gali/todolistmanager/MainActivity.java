@@ -27,11 +27,12 @@ public class MainActivity extends ActionBarActivity {
     private CustomAdapter adapter;
     static DateFormat format = new SimpleDateFormat("d-MM-yyyy");
     final Context context = this;
-
+    DBHelper db = new DBHelper(context);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        list = db.getAllTodos();
         final ListView listview = (ListView) findViewById(R.id.list_view);
         adapter = new CustomAdapter(this, R.layout.itemlistrow, list);
         listview.setAdapter(adapter);
@@ -70,8 +71,10 @@ public class MainActivity extends ActionBarActivity {
                 deleteBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Todo_item todo_item = list.get(position);
                         list.remove(adapter.getItem(position));
                         adapter.notifyDataSetChanged();
+                        db.deleteTodo_item(todo_item);
                         itemDialog.dismiss();
                     }
                 });
@@ -80,13 +83,6 @@ public class MainActivity extends ActionBarActivity {
             }
 //
         }); //end of setOnItemLongClickListener
-
-        //
-
-
-
-
-
     }
 
 
@@ -132,8 +128,10 @@ public class MainActivity extends ActionBarActivity {
                     String title = (String) bundle.get("title");
                     if (!title.isEmpty()) {
                         Todo_item todo_item = new Todo_item(title, dateS);
+                        db.addTodoItem(todo_item);
                         list.add(todo_item);
                         adapter.notifyDataSetChanged();
+                        //add to the DB
                     }
                 }
                 break;

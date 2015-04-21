@@ -12,9 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by gali on 17-Mar-15.
- */
 public class CustomAdapter extends ArrayAdapter<Todo_item> {
     private List<Todo_item> list;
     public CustomAdapter(Context context, int resource, List<Todo_item> objects) {
@@ -30,9 +27,9 @@ public class CustomAdapter extends ArrayAdapter<Todo_item> {
         TextView todo_date = (TextView) view.findViewById(R.id.txtTodoDueDate);
         Todo_item todo_item = this.list.get(position);
         //set the values
-        todo_task.setText(todo_item.task);
-        todo_date.setText(todo_item.date);
-        if (!todo_item.date.equalsIgnoreCase("no due to date")) {
+        todo_task.setText(todo_item.get_task());
+        todo_date.setText(todo_item.get_date());
+        if (!todo_item.get_date().equalsIgnoreCase("no due to date")) {
             Date date = null;
             try {
                 date = MainActivity.format.parse(todo_date.getText().toString());
